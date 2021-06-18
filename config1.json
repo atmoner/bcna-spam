@@ -1,0 +1,12 @@
+{
+	"mnemonic":"",
+	"validatorAddress":"",
+	"chainId":"bitcanna-testnet-3", 
+	"lcdUrl":"http://seed1.bitcanna.io:1317",
+	"denom":"ubcna",
+	"prefix":"bcna",
+	"feeAmount":5000,
+	"AmountSend":1000000,
+	"gasLimit":200000,
+	"memo":"Send from Bcna-Spam"
+}
