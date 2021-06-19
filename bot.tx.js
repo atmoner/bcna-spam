@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var fs = require('fs');
 const cosmosjs = require("@cosmostation/cosmosjs");
 var getJSON = require('get-json')
@@ -22,47 +23,49 @@ const MessageMemo = config.memo;
 
 var hackSeq = 0; // Set your sequence -1 // Edit, dont touche it
 
-getJSON(config.lcdUrl+'/cosmos/auth/v1beta1/accounts/'+address, function(error, response){
-	logSeq(response.account.sequence-1) 
+getJSON(config.lcdUrl + '/cosmos/auth/v1beta1/accounts/' + address, function(error, response) {
+    logSeq(response.account.sequence - 1)
 })
 
 function logSeq(seq) {
-	hackSeq = seq
-	console.log(hackSeq)
+    hackSeq = seq
+    console.log(hackSeq)
 }
 
 function sendTx() {
-	// Generate MsgSend transaction and broadcast
-	bitCanna.getAccounts(address).then(data => {
-		hackSeq = hackSeq+1
-		let stdSignMsg = bitCanna.newStdMsg({
-			msgs: [
-				{
-					type: "cosmos-sdk/MsgSend",
-					value: {
-						amount: [
-							{
-								amount: String(1), 	// 6 decimal places (1000000 ubcna = 1 BCNA)
-								denom: config.denom
-							}
-						],
-						from_address: address,
-						to_address: 'bcna1dwkhyqsgr6mxa2qf70rv5mpdch9vr345tsmlpm'
-					}
-				}
-			],
-			chain_id: chainId,
-			fee: { amount: [ { amount: String(config.feeAmount), denom: config.denom } ], gas: String(config.gasLimit) },
-			memo: MessageMemo,
-			account_number: String(data.result.value.account_number),
-			sequence: String(hackSeq)								
-			//sequence: String(data.result.value.sequence)
-		});
+    // Generate MsgSend transaction and broadcast
+    bitCanna.getAccounts(address).then(data => {
+        hackSeq = hackSeq + 1
+        let stdSignMsg = bitCanna.newStdMsg({
+            msgs: [{
+                type: "cosmos-sdk/MsgSend",
+                value: {
+                    amount: [{
+                        amount: String(1), // 6 decimal places (1000000 ubcna = 1 BCNA)
+                        denom: config.denom
+                    }],
+                    from_address: address,
+                    to_address: 'bcna1dwkhyqsgr6mxa2qf70rv5mpdch9vr345tsmlpm'
+                }
+            }],
+            chain_id: chainId,
+            fee: {
+                amount: [{
+                    amount: String(config.feeAmount),
+                    denom: config.denom
+                }],
+                gas: String(config.gasLimit)
+            },
+            memo: MessageMemo,
+            account_number: String(data.result.value.account_number),
+            sequence: String(hackSeq)
+            //sequence: String(data.result.value.sequence)
+        });
 
-		const signedTx = bitCanna.sign(stdSignMsg, ecpairPriv);
-		bitCanna.broadcast(signedTx).then(response => console.log(response));
-		//console.log(data.result.value.account_number)
-	})
+        const signedTx = bitCanna.sign(stdSignMsg, ecpairPriv);
+        bitCanna.broadcast(signedTx).then(response => console.log(response));
+        //console.log(data.result.value.account_number)
+    })
 }
- 
+
 setInterval(sendTx, 250); // Milisecond
