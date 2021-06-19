@@ -7,8 +7,7 @@
  
 
 <p align="center">
-⭐ Cosmos-tool is a tool to facilitate the use of your cosmos wallet/node (regardless of the blockchain) from anywhere <br />
-  Whether you are a validator or a simple delegator, this tool will prevent you from using the command line for each action <br /><br />
+⭐ Bcna-spam tool!<br /><br />
 </p>
 
 |Main menu !![image](https://user-images.githubusercontent.com/1071490/122655846-52617780-d145-11eb-8719-72d7097c317f.png)|Send Tx ![image](https://user-images.githubusercontent.com/1071490/122655874-8a68ba80-d145-11eb-9fb7-be7d8ccc7a2a.png) |
@@ -52,6 +51,6 @@ Edit this part with your value:
 
 ## Run it 
 ```
-node app.js
+node bot.tx.js
 ```
 
