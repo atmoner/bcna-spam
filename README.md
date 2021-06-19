@@ -48,7 +48,7 @@ Edit this part with your value:
 	"memo":"Send from Bcna-Spam"
 }
 ```  
-Example of config.json: <a href="https://github.com/atmoner/cosmos-tool/tree/main/config-example">/config-example</a>  
+
 
 ## Run it 
 ```
