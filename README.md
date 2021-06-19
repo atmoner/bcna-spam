@@ -51,6 +51,6 @@ Edit this part with your value:
 
 ## Run it 
 ```
-node bot.tx.js
+npm start
 ```
 
