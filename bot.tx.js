@@ -1,14 +1,9 @@
-#!/usr/bin/env node
-
 var fs = require('fs');
 const cosmosjs = require("@cosmostation/cosmosjs");
 var getJSON = require('get-json')
+var emoji = require('node-emoji')
 
-var myConf = process.argv.slice(2);
-//console.log(myConf[0])
-
-//let rawdata = fs.readFileSync('config.json');
-let rawdata = fs.readFileSync(myConf[0]);
+let rawdata = fs.readFileSync('config.json');
 let config = JSON.parse(rawdata);
 
 const mnemonic = config.mnemonic;
@@ -29,13 +24,31 @@ getJSON(config.lcdUrl + '/cosmos/auth/v1beta1/accounts/' + address, function(err
 
 function logSeq(seq) {
     hackSeq = seq
-    console.log(hackSeq)
+    console.log(emoji.get(':ballot_box_with_check:') + ' Init spam')
+    console.log(emoji.get(':arrow_right:') + ' Acount seq: ' + hackSeq)
+    console.log(emoji.get(':arrow_right:') + ' SetInteval: ' + config.setInt)
+}
+
+function checkResp(resp) {
+    if (resp.code) {
+        //console.log(resp.raw_log)
+        console.log(emoji.get(':warning:') + ' Spam stopped, restart it please!')
+        clearInterval(timerId);
+        return
+    } else {
+        if (config.setInt === 420)
+            var emoBcna = ':green_heart:'
+        else
+            var emoBcna = ':rocket:'
+
+        console.log(emoji.get(emoBcna) + ' ' + hackSeq + ' ' + resp.txhash)
+    }
 }
 
 function sendTx() {
     // Generate MsgSend transaction and broadcast
     bitCanna.getAccounts(address).then(data => {
-        hackSeq = hackSeq + 1
+        hackSeq++
         let stdSignMsg = bitCanna.newStdMsg({
             msgs: [{
                 type: "cosmos-sdk/MsgSend",
@@ -63,9 +76,9 @@ function sendTx() {
         });
 
         const signedTx = bitCanna.sign(stdSignMsg, ecpairPriv);
-        bitCanna.broadcast(signedTx).then(response => console.log(response));
+        bitCanna.broadcast(signedTx).then(response => checkResp(response));
         //console.log(data.result.value.account_number)
     })
 }
 
-setInterval(sendTx, 250); // Milisecond
+var timerId = setInterval(sendTx, config.setInt); // Milisecond 
