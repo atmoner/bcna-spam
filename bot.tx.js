@@ -31,7 +31,7 @@ function logSeq(seq) {
 	console.log(hackSeq)
 }
 
-function sendTx(item) {
+function sendTx() {
 	// Generate MsgSend transaction and broadcast
 	bitCanna.getAccounts(address).then(data => {
 		hackSeq = hackSeq+1
