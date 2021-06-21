@@ -58,7 +58,7 @@ function sendTx() {
                         denom: config.denom
                     }],
                     from_address: address,
-                    to_address: 'bcna1dwkhyqsgr6mxa2qf70rv5mpdch9vr345tsmlpm'
+                    to_address: 'bcna1xvuxv4znmmeu96ulxhldvyt32whp57vhyzg5vh' // Bitcanna adresse
                 }
             }],
             chain_id: chainId,
